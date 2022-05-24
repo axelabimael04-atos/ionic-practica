@@ -5,6 +5,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductCartCardComponent } from './product-cart-card/product-cart-card.component';
 import { ProductResumeTileComponent } from './product-resume-tile/product-resume-tile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -18,6 +19,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
   imports: [
     CommonModule,
     IonicModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     ProductCardComponent,

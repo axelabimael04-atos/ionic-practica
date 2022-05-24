@@ -11,14 +11,21 @@ export class AuthService {
     private router: Router,
   ) {}
   // Sign in with email/password
-  async signIn(email: string, password: string) {
-    const result = await this.afAuth.signInWithEmailAndPassword(email, password);
-    console.log(result.user.email);
-    this.router.navigate(['/tabs']);
+  signIn(email: string, password: string) {
+    return this.afAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        console.log(result.user.email);
+
+        this.router.navigate(['/tabs']);
+      });
   }
   // Sign up with email/password
-  async signUp(email: string, password: string) {
-    const result = await this.afAuth.createUserWithEmailAndPassword(email, password);
-    this.router.navigate(['/tabs']);
+  signUp(email: string, password: string) {
+    return this.afAuth
+      .createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        this.router.navigate(['/tabs']);
+      });
   }
 }
