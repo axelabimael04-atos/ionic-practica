@@ -1,0 +1,25 @@
+<ion-card>
+  <img [src]="product.img" [alt]="product.name"> 
+  <ion-card-header>
+    <ion-row class="ion-justify-content-between ion-align-items-center">
+      <ion-card-title>{{product.name}}</ion-card-title>
+      <h6>${{product.price}} MXN</h6>
+    </ion-row>
+    <ion-card-subtitle>{{product.description}}</ion-card-subtitle>
+  </ion-card-header>
+  <div class="wrapper">
+    <div *ngIf="this.cart.isProductOnCart(this.product) else elseBlock">
+      <ion-button (click)="this.cart.removeProduct(this.product)" expand="block" fill="solid" 
+      class="custom-button" color="danger">
+        Quitar al carrito
+      </ion-button>
+      
+    </div>
+    <ng-template #elseBlock>
+      <ion-button (click)="this.cart.addProduct(this.product)" expand="block" fill="solid" class="custom-button">
+        Agregar del carrito
+      </ion-button>
+    </ng-template>
+    
+  </div>
+</ion-card>

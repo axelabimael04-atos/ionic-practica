@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Resumen </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="">
+
+
+  <div *ngIf="this.cart.isEmpty() else elseBlock" id="container">
+    
+    <strong>Sin productos agregados</strong>
+  </div>
+
+  <ng-template #elseBlock>
+    <ion-title class="ion-padding-vertical">Productos</ion-title>
+
+    <div class="ion-padding-horizontal" *ngFor="let product of this.cart.productsOnCart">
+
+      <app-product-resume-tile [product]="product"></app-product-resume-tile>
+    </div>
+
+    <ion-row class="ion-justify-content-between ion-padding-end">
+      <ion-title>Total</ion-title>
+      <ion-text class="ion-padding-end total-price">${{this.cart.totalCart()}} MXN</ion-text>
+    </ion-row>
+    
+  </ng-template>
+
+
+
+  
+</ion-content>

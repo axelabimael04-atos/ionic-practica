@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Carrito </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="this.cart.isEmpty() else elseBlock" id="container">
+    
+    <strong>Sin productos agregados</strong>
+  </div>
+
+  <ng-template #elseBlock>
+    <div *ngFor="let product of this.cart.productsOnCart">
+      <app-product-cart-card [product]="product"></app-product-cart-card>
+    </div>
+    
+  </ng-template>
+  
+</ion-content>
