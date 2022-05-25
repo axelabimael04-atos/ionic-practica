@@ -15,7 +15,7 @@
   <ng-template #elseBlock>
     <ion-title class="ion-padding-vertical">Productos</ion-title>
 
-    <div class="ion-padding-horizontal" *ngFor="let product of this.cart.productsOnCart">
+    <div class="ion-padding-horizontal" *ngFor="let product of this.cart.productsOnCart$ | async">
 
       <app-product-resume-tile [product]="product"></app-product-resume-tile>
     </div>

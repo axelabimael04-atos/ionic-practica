@@ -1,16 +1,26 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Product, ProductOnCart } from '../interfaces/product';
 // TODO: make everything using rxjs, BehaviorSubject, Subject 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  productsOnCart: ProductOnCart[] = [];
+
+
+  public productsOnCart$: BehaviorSubject<ProductOnCart[]> = 
+  new BehaviorSubject<ProductOnCart[]>([]);
+
+
+
+  // productsOnCart: ProductOnCart[] = [];
 
   constructor() {}
 
   isEmpty(): boolean {
-    return this.productsOnCart.length === 0;
+    // return this.productsOnCart.length === 0;
+    return this.productsOnCart$.getValue().length === 0;
   }
 
   addProduct(product: Product) {
@@ -20,11 +30,21 @@ export class CartService {
       count: 1
     };
 
-    this.productsOnCart.push(item);
+    const currentState: ProductOnCart[] = this.productsOnCart$.getValue();
+
+    this.productsOnCart$.next([...currentState, item])
+
+    // this.productsOnCart.push(item);
   }
 
   removeProduct(product: Product) {
-    this.productsOnCart = this.productsOnCart.filter((v) => v.product.id !== product.id);
+    const currentState: ProductOnCart[] = this.productsOnCart$.getValue();
+
+    const filteredList = currentState.filter((v) => v.product.id !== product.id);
+
+    this.productsOnCart$.next([...filteredList])
+
+
     // this.productsOnCart.forEach( (item, index) => {
     //   if(item.product.id === product.id){
     //     this.productsOnCart.splice(index,1);
@@ -33,7 +53,8 @@ export class CartService {
   }
 
   isProductOnCart(product: Product): boolean{
-    return this.productsOnCart.some((x) => x.product.id === product.id);
+    const currentState: ProductOnCart[] = this.productsOnCart$.getValue();
+    return currentState.some((x) => x.product.id === product.id);
   }
 
   incrementProductCount(product: ProductOnCart){
@@ -47,7 +68,8 @@ export class CartService {
     }
   }
   totalCart(): number{
-     return this.productsOnCart.map((product) => product.subtotal).reduce((p,c) => p + c, 0);
+    const currentState: ProductOnCart[] = this.productsOnCart$.getValue();
+     return currentState.map((product) => product.subtotal).reduce((p,c) => p + c, 0);
 
 
     // this.productsOnCart.forEach(product =>{
