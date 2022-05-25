@@ -19,7 +19,6 @@ export class SignInComponent implements OnInit {
   }
 
   onClick() {
-    console.log(this.userForm.value);
-    // this.authService.signIn('axel_aam@hotmail.com', '00zZ5500');
+    this.authService.signIn(this.userForm.value['email'], this.userForm.value['password']);
   }
 }

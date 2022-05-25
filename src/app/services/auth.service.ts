@@ -2,6 +2,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -16,7 +17,7 @@ export class AuthService {
   signIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
+      .then(async (result) => {
         console.log(result.user.uid);
         this.router.navigate(['/tabs']);
       });
