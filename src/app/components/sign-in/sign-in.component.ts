@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import * as auth from 'firebase/auth';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-in',
@@ -9,17 +8,17 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
-  userForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-  });
-
+  public userForm:FormGroup;
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userForm = new FormGroup({
+      email: new FormControl('',[Validators.required, Validators.email]),
+      password: new FormControl('',[Validators.minLength(6), Validators.required]),
+    });
+  }
 
   onClick() {
-    console.warn(this.userForm.value);
     console.log(this.userForm.value);
     // this.authService.signIn('axel_aam@hotmail.com', '00zZ5500');
   }

@@ -6,20 +6,22 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
+
   constructor(
     private afAuth: AngularFireAuth,
-    private router: Router,
-  ) {}
+    private router: Router
+  ) { }
   // Sign in with email/password
+  // TODO: use sign-in to get user and provide the user on a behavior subject over the application
   signIn(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        console.log(result.user.email);
-
+        console.log(result.user.uid);
         this.router.navigate(['/tabs']);
       });
   }
+
   // Sign up with email/password
   signUp(email: string, password: string) {
     return this.afAuth
