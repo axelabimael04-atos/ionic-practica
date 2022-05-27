@@ -44,10 +44,33 @@ export class CartService {
     return currentState.some((x) => x.product.id === product.id);
   }
 
-  incrementProductCount(product: ProductOnCart) {
-    product.count++;
-    product.subtotal = product.count * product.product.price;
+  incrementProductCount({product}: ProductOnCart) {
+    // product.count++;
+    // product.subtotal = product.count * product.product.price;
+    this.productsOnCart$.asObservable().pipe(
+      take(1),
+      map((productList) => {
+        let myIndex: number = null;
+        productList.find(({ product: mySavedProduct }, k) => {
+          const match: boolean = mySavedProduct.id === product.id;
+          if (match) {
+            myIndex = k;
+          }
+          return match;
+        });
+        if (typeof myIndex === 'number') {
+          productList[myIndex].count++;
+          productList[myIndex].subtotal = productList[myIndex].count * productList[myIndex].product.price;
+        }
+        return productList;
+      }),
+    ).subscribe({
+      next: (newCartState) => {
+        this.productsOnCart$.next(newCartState);
+      } 
+    })
   }
+
   decrementProductCount({ product }: ProductOnCart) {
     this.productsOnCart$.asObservable().pipe(
       take(1),
