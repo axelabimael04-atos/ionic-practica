@@ -1,5 +1,5 @@
 
   <ion-row class="ion-padding-bottom ion-padding-horizontal ion-justify-content-between">
     <ion-text>{{product.product.name}} ({{product.count}})</ion-text>
-    <ion-text>${{product.subtotal}} MXN</ion-text>
+    <ion-text>{{product.subtotal | formatPricing}}</ion-text>
   </ion-row>

@@ -6,6 +6,7 @@ import { ProductCartCardComponent } from './product-cart-card/product-cart-card.
 import { ProductResumeTileComponent } from './product-resume-tile/product-resume-tile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormatPricingPipe } from '../pipes/format-pricing/format-pricing.pipe';
 
 
 
@@ -14,13 +15,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProductCardComponent,
     ProductCartCardComponent,
     ProductResumeTileComponent,
-    SignInComponent
+    SignInComponent,  
+    FormatPricingPipe
   ],
   imports: [
     CommonModule,
     IonicModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [
     ProductCardComponent,

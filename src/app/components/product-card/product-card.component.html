@@ -3,7 +3,7 @@
   <ion-card-header>
     <ion-row class="ion-justify-content-between ion-align-items-center">
       <ion-card-title>{{product.name}}</ion-card-title>
-      <h6>${{product.price}} MXN</h6>
+      <h6>{{product.price | formatPricing}}</h6>
     </ion-row>
     <ion-card-subtitle>{{product.description}}</ion-card-subtitle>
   </ion-card-header>

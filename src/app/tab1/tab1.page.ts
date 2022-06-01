@@ -14,7 +14,7 @@ export class Tab1Page {
       id: 1,
       name: 'Camarones roca',
       description: 'Camarón crujiente + aderezo spicy',
-      price: 150,
+      price: 15000,
       img: 'https://firebasestorage.googleapis.com/v0/b/project-quick-trip.appspot.com/o/er0pfDGmOWpsTbjxoP8L%2Fproducts%2Froca.jpeg?alt=media&token=86181260-9dcb-4c92-bf26-f9500d0a8619',
     },
 

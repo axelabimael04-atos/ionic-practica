@@ -11,10 +11,12 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ComponentsModule } from './components/components.module';
 import { PERSISTENCE } from '@angular/fire/compat/auth';
+import { FormatPricingPipe } from './pipes/format-pricing/format-pricing.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
+    // FormatPricingPipe
   ],
   entryComponents: [],
   imports: [
@@ -23,6 +25,7 @@ import { PERSISTENCE } from '@angular/fire/compat/auth';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     ComponentsModule, 
+    
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
