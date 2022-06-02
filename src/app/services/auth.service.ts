@@ -6,35 +6,46 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { from, Observable, of } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { switchMap } from 'rxjs/operators';
-import { Roles, User } from '../interfaces/user';
+import { map, switchMap } from 'rxjs/operators';
+import { Roles, User, UserAndRoles } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   currentUser$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-
+  userRoles$: BehaviorSubject<Roles> = new BehaviorSubject<Roles>(null);
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router
-  ) {}
+  ) {
+    this.currentUser$.subscribe(console.log);
+    this.userRoles$.subscribe(console.log);
+  }
   // Sign in with email/password
   // TODO: use sign-in to get user and provide the user on a behavior subject over the application
 
-  signIn(email: string, password: string) {
-    // return this.afAuth
-    //   .signInWithEmailAndPassword(email, password)
-    //   .then(async (result) => {
-    //     const user: User = this.getUserData(result.user);
-    //     this.currentUser$.next(user);
-    //     this.router.navigate(['/tabs']);
-    //   });
+  public signIn(email: string, password: string) {
+    // try {
+    //   const credentials = await this.afAuth.signInWithEmailAndPassword(email, password);
+    //   this._getUser(credentials.user.uid);
+    //   this.router.navigate(['/tabs']);
+    // } catch (error) {
+    //   throw error;
+    // }
+    return from(this.afAuth.signInWithEmailAndPassword(email, password)).pipe(
+      switchMap((credentials) => this._getUser(credentials.user.uid))
+    ).subscribe({
+      next: (userAndRoles) => {
+        this.currentUser$.next(userAndRoles.user);
+        this.userRoles$.next(userAndRoles.roles);
+        this.router.navigate(['/tabs']);
+      }
+    });
 
-    const user: User = this.getUserData();
-    this.currentUser$.next(user);
   }
 
   // Sign up with email/password
@@ -48,6 +59,20 @@ export class AuthService {
       });
   }
 
+  private _getUser(uid: string): Observable<UserAndRoles> {
+    return this.afs.doc<User>(`/users/${uid}`).valueChanges({ idField: 'uid' }).pipe(
+      switchMap((user) => {
+        return this.afs.doc<Roles>(
+          `/cities/${user.city}/settings/roles/central/${user.uid}`
+        ).valueChanges().pipe(map((roles) => ({ user, roles })))
+      }));
+  }
+
+
+  /**
+   * * @ reactive
+   * @returns 
+   */
   getUserData(): User {
 
     const userRef: AngularFirestoreDocument<Roles> = this.afs.doc<Roles>(
@@ -61,6 +86,7 @@ export class AuthService {
       // email: user.email,
       uid: 'oQ2yc9QjosUeSMpYLa7G6WORdhB2',
       email: 'axel_aam@hotmail.com',
+      city: 'asdasd',
       roles: {
         business: userRef['business'],
         deliveryman: userRef['deliveryman'],
@@ -74,6 +100,7 @@ export class AuthService {
 
   canRead(user: User): boolean {
     const allowed = ['orders'];
+    const rolesValue = this.userRoles$.getValue();
     return this.checkAutorization(user, allowed);
   }
 
@@ -89,9 +116,9 @@ export class AuthService {
 
 
   private checkAutorization(user: User, allowedRoles: string[]): boolean {
-    if(!user) return false;
+    if (!user) return false;
     for (const role of allowedRoles) {
-      if(user.roles[role]){
+      if (user.roles[role]) {
         return true;
       }
     }
