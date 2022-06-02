@@ -23,11 +23,15 @@ export class PermissionsGuard implements CanActivate {
   isUserLogIn(){  //TODO: observable logueado
     return this.authService.currentUser$.subscribe(
       (value)=>{
-        if(value != null){
-          return true;
-        } else {
-          return false;
-        }
+        console.log(this.authService.canRead(value));
+
+
+        return false;
+        // if(value != null){
+        //   return true;
+        // } else {
+        //   return false;
+        // }
       }
     );
   }
