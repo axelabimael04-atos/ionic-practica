@@ -1,12 +1,12 @@
 <ion-card>
   <ion-row>
     <ion-col size="3">
-      <img [src]='product.product.img' alt=""> 
+      <img [src]='product.product.img' alt="">
     </ion-col>
     <ion-col size="9">
       <ion-text>{{product.product.name}}</ion-text>
       <ion-row>
-        <ion-buttons >
+        <ion-buttons>
           <ion-button (click)="deleteProduct()">
             <ion-icon name="trash-outline" color="danger"></ion-icon>
           </ion-button>

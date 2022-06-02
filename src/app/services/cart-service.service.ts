@@ -102,15 +102,14 @@ export class CartService {
     //   product.subtotal = product.count * product.product.price;
     // }
   }
-  totalCart(): number {
+
+  /**
+   * 
+   * @returns 
+   */
+
+  public get totalCart(): number {
     const currentState: ProductOnCart[] = this.productsOnCart$.getValue();
     return currentState.map((product) => product.subtotal).reduce((p, c) => p + c, 0);
-
-
-    // this.productsOnCart.forEach(product =>{
-    //   total = total + product.subtotal;
-    // });
-
-    // return total;
   }
 }

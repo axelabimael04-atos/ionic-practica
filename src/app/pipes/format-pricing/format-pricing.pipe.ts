@@ -1,17 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'formatPricing'
+  name: 'formatPricing',
+  pure: false,
 })
 export class FormatPricingPipe implements PipeTransform {
 
-  transform(value: any, ...args: unknown[]): unknown {
-    const fromatedPrice = this.numberWithCommas(value);
-    return `$ ${fromatedPrice} MXN`;
+  transform(value: number): string {
+    const formatedPrice = this.numberWithCommas(value);
+    return `$ ${formatedPrice} MXN`;
   }
 
-  numberWithCommas(x: String) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  numberWithCommas(valueToFormat: number) {
+    return (`${valueToFormat}`).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
 }
